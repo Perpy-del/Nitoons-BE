@@ -2,11 +2,12 @@
   "name": "nitoons-script-writer-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
     "test": "npm run test",
     "dev": "nodemon"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pledre/Nitoons-script-writer-backend.git"
@@ -25,6 +26,8 @@
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
     "colors": "^1.4.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
