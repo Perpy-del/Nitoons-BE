@@ -5,9 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "test": "npm run test",
-    "dev": "nodemon"
+    "dev": "set NODE_ENV=development && nodemon"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pledre/Nitoons-script-writer-backend.git"
@@ -23,7 +22,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.0"
+    "mongoose": "^8.0.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",
