@@ -6,6 +6,7 @@ import logger from 'morgan';
 import { dBSetup } from './lib/db';
 import { config } from './config/index'
 import {router as userRouter} from './routers/userRouter';
+import { globalErrorHandler } from '../src/utils/globalErrHandler';
 
 dotenv.config();
 
@@ -31,5 +32,7 @@ app.use(logger("tiny"));
 app.get('/api/v1', (_req, res) => {
     res.send("Welcome to Nitoons!");
 })
+
+app.use(globalErrorHandler);
 
 app.use("/api/v1/users", userRouter);

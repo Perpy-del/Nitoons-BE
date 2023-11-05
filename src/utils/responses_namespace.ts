@@ -22,6 +22,51 @@ export default class ResponseNamespace {
         res.send(body);
     }
 
+    static BadUserRequestError(res: Response, message: string) {
+        let body = {
+            error: true,
+            success: false,
+            message: message,
+            status: 400,
+            errorType: "BadUserRequestError"
+        }
+        res.send(body);
+    }
+
+    static NotFoundError(res: Response, message: string) {
+        let body = {
+            error: true,
+            success: false,
+            message: message,
+            status: 404,
+            errorType: "NotFoundError"
+        }
+        res.send(body);
+    }
+
+    static UnauthorizedError(res: Response, message: string) {
+        let body = {
+            error: true,
+            success: false,
+            message: message,
+            status: 401,
+            errorType: "UnAuthorizedError"
+        }
+        res.send(body);
+    }
+
+    static InternalServerError(res: Response, message: string) {
+        let body = {
+            error: true,
+            success: false,
+            message: message,
+            status: 500,
+            errorType: "InternalServerError"
+        }
+        res.send(body);
+    }
+
+
     static sendRequiredParameterMissingError (req: Request, res: Response, comment: string) {
         console.log("parameters are missing", comment);
         this.sendErrorMessage( req,
