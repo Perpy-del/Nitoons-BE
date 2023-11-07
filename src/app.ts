@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import logger from 'morgan';
 import { dBSetup } from './lib/db';
 import { config } from './config/index'
+import {scriptRouter} from './routers/scriptRouter'
 import {router as userRouter} from './routers/userRouter';
 import { globalErrorHandler } from '../src/utils/globalErrHandler';
 
@@ -36,3 +37,4 @@ app.get('/api/v1', (_req, res) => {
 app.use(globalErrorHandler);
 
 app.use("/api/v1/users", userRouter);
+app.use('/api/v1/script', scriptRouter);
