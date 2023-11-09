@@ -6,12 +6,12 @@ export default class UserPinController {
    * Handles generating five digit token
    */
 
-  static generateFiveDigitPin(expiryInMins: number) {
-    const fiveDigitPin = crypto.randomInt(10000, 99999);
+  static generatePin(expiryInMins: number) {
+    const randomPin = crypto.randomInt(10000, 99999);
     const dateNow = moment();
     const expiryTime = moment(dateNow)
       .add(expiryInMins, 'minutes').toDate();
-    return { fiveDigitPin, expiryTime };
+    return { randomPin, expiryTime };
   }
 
   static checkIfPinIsExpired(expiryTime: Date): boolean {

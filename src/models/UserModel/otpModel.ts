@@ -1,23 +1,23 @@
 import { Schema, SchemaTypes, model, Types } from "mongoose";
 import moment from "moment";
 
-interface IFiveDigitPin {
+interface IPin {
     user_id: Types.ObjectId;
-    five_digit_pin: number;
+    otp: number;
     is_used: boolean;
     expiry_time: Date;
 }
 
-interface IFiveDigitPinSchema extends IFiveDigitPin, Document {}
+interface IPinSchema extends IPin, Document {}
 
-const FiveDigitPinSchema: Schema = new Schema(
+const otpSchema: Schema = new Schema(
     {
         user_id: {
             type: SchemaTypes.ObjectId,
             required: true,
             ref: "user"
         },
-        five_digit_pin: {
+        otp: {
             type: Number,
             required: true,
         },
@@ -32,6 +32,6 @@ const FiveDigitPinSchema: Schema = new Schema(
     { timestamps: true }
 );
 
-const fiveDigitPinModel = model<IFiveDigitPinSchema>("fiveDigitPin", FiveDigitPinSchema)
+const otpModel = model<IPinSchema>("otp", otpSchema)
 
-export default fiveDigitPinModel;
+export default otpModel;
