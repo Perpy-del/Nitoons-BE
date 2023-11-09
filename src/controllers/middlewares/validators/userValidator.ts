@@ -21,7 +21,7 @@ const emailValidator = (req: Request, res: Response, next: NextFunction) => {
 
 const pinValidator = (req: Request, res: Response, next: NextFunction) => {
   const validatePin = Joi.object({
-    five_digit_pin: Joi.number().required().messages({
+    otp: Joi.number().required().messages({
       "string.pattern.base":
         "Please enter a valid pin number"
     }),
