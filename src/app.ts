@@ -8,6 +8,7 @@ import { config } from './config/index'
 import {scriptRouter} from './routers/scriptRouter'
 import {router as userRouter} from './routers/userRouter';
 import { globalErrorHandler } from '../src/utils/globalErrHandler';
+import { validatorNamespace } from 'controllers/middlewares/validators/userValidator';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const app = express();
 Promise.resolve(dBSetup().then(() => console.log('Database connected successfully')));
 
 app.use(cors({
-    credentials: true
+    credentials: true,
 }))
 
 app.use(express.json());

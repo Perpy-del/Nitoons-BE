@@ -1,26 +1,26 @@
 import { Request, Response } from 'express';
-import UserPinController from './generateRandomFiveDigitPin';
-import userValidator from '../middlewares/validators/userValidator';
+import UserPinController from './generateRandomPin';
+// import userValidator from '../middlewares/validators/userValidator';
 import dotenv from 'dotenv';
 import sendMail from '../../lib/sendgrid_namespace';
 import { ISendMail } from '../../lib/sendgrid_namespace';
 import ResponseNamespace from '../../utils/responses_namespace';
 import { UserNamespace } from '../../lib/UserLogIn/user_login_namespace';
-import { newToken } from '../middlewares/validators/jwtHandler';
-import { fiveDigitPinNamespace} from '../../lib/UserLogIn/five_digit_pin_namespace'
+import { newToken } from '../middlewares/jwtHandler';
+import { otpNamespace } from '../../lib/UserLogIn/otp_namespace';
 import { config } from '../../config/index';
 dotenv.config();
 
 export default class UserController {
   static async loginUser(req: Request, res: Response) {
     const { email } = req.body;
-    
-    const { error } = userValidator.validate(req.body);
-    if (error) throw error;
+
+    // const { error } = userValidator.validate(req.body);
+    // if (error) throw error;
     const existingEmail = await UserNamespace.getUser({
       email: req.body.email,
     });
-    const {fiveDigitPin, expiryTime} = UserPinController.generateFiveDigitPin(5);
+    const { randomPin, expiryTime } = UserPinController.generatePin(5);
 
     const mailOptions: ISendMail = {
       to: email,
@@ -28,18 +28,18 @@ export default class UserController {
       subject: 'Welcome to Nitoons',
       text: 'Verify your Email',
       template: './template/sendPin.handlebars',
-      payload: { verificationPin: fiveDigitPin },
+      payload: { verificationPin: randomPin },
     };
 
     try {
       if (existingEmail) {
         const { _id, email } = existingEmail;
-        const userId = _id
-          fiveDigitPinNamespace.updatePin({
-            fiveDigitPin,
-            expiryTime,
-            userId
-          })
+        const userId = _id;
+        otpNamespace.addNewPin({
+          otp: randomPin,
+          expiryTime,
+          userId,
+        });
 
         await sendMail(mailOptions);
 
@@ -60,11 +60,11 @@ export default class UserController {
         email: req.body.email,
       });
 
-      fiveDigitPinNamespace.addNewPin({
-        fiveDigitPin,
+      otpNamespace.addNewPin({
+        otp: randomPin,
         expiryTime,
-        userId: user._id
-      })
+        userId: user._id,
+      });
 
       const data = {
         userId: user._id,
@@ -92,54 +92,60 @@ export default class UserController {
   }
 
   static async validateUser(req: Request, res: Response) {
-    let { user_id, five_digit_pin } = req.body;
+    let { user_id, otp } = req.body;
 
-    // const pinExist = await UserPinController.checkIfPinExist(five_digit_pin, user_id);
-    const modelExist = await fiveDigitPinNamespace.getPin({userId: user_id});
+    const modelExist = await otpNamespace.getPin({
+      userId: user_id,
+      otp
+    });
 
-    
-      if(modelExist[0].five_digit_pin !== five_digit_pin){
-          ResponseNamespace.BadUserRequestError(res, 
-            'Incorrect pin. Please input a valid verification pin.'
-          );
-      } 
-      
-      const expiry_time = modelExist[0].expiry_time;
-      const pinIsExpired = UserPinController.checkIfPinIsExpired(expiry_time);
-      try {
-        if (pinIsExpired) {
-          // res.send("Verification pin has expired.")
-          ResponseNamespace.BadUserRequestError(res, "Verification pin has expired. Click on Resend pin to generate another pin.")
-        }
-      
-        const token = newToken(user_id);
-        res.setHeader('Authorization', `Bearer ${token}`);
+    console.log(modelExist);
 
-        return ResponseNamespace.sendSuccessMessage(
+    try {
+      // Check if the pin is expired
+      if (UserPinController.checkIfPinIsExpired(modelExist?.expiry_time)) {
+        console.log(modelExist?.expiry_time.getSeconds());
+        return ResponseNamespace.BadUserRequestError(
           res,
-          {},
-          res.status(200).statusCode,
-          'User pin generated and mail sent successfully'
-        );
-      } catch (error) {
-        console.log('Error logging in user', error, error && error.message);
-        return ResponseNamespace.sendErrorMessage(
-          req,
-          res,
-          error,
-          res.status(500).statusCode,
-          'Error logging in user',
+          'Verification pin has expired. Click on Resend pin to generate another pin.'
         );
       }
+
+      // Check if the pin is used
+      else if (await otpNamespace.getPinIsUsed({ userId: user_id, otp })) {
+        return ResponseNamespace.BadUserRequestError(
+          res,
+          'This pin has already been used. Click on Resend pin to generate another pin'
+        );
+      }
+
+      // Check if the pin is incorrect
+      else if (modelExist?.otp !== otp) {
+        return ResponseNamespace.BadUserRequestError(
+          res,
+          'Incorrect pin. Check your mail and input a valid pin.'
+        );
+      }
+
+      // Pin is valid, generate a token and return it, then update otp's is_used to true
+      else {
+        const token = newToken(user_id);
+        res.json({ token });
+        await otpNamespace.updatePinIsUsed({
+          otp,
+          userId: user_id,
+        });
+        console.log('Token sent and user logged in successfully');
+      }
+    } catch (error) {
+      console.log('Error logging in user', error, error && error.message);
+      return ResponseNamespace.sendErrorMessage(
+        req,
+        res,
+        error,
+        res.status(500).statusCode,
+        'Error logging in user'
+      );
+    }
   }
 }
-
-
-
-// sendMail(
-//     to: 'recipient@example.com',
-//     from: 'sender@example.com',
-//     subject: 'Your Subject',
-//     text: 'Your plain text content',
-//     html: '<p>Your HTML content</p>',
-// );
