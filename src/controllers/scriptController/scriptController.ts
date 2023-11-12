@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'; 
 import {  Types } from "mongoose";
 import ResponseNamespace from '../../utils/responses_namespace';
-import { createNewScript, getScripts, deleteScripts, updateAllScripts, trashScripts, updateScriptTitle, updatetrashScript,deleteSingleScript,  updatetrashScriptFalse, duplicateScript } from '../../lib/Script/script_namespace';
+import { createNewScript, getScripts,  updateAllScripts, trashScripts, updateScriptTitle, updatetrashScript,deleteSingleScript,  updatetrashScriptFalse, duplicateScript } from '../../lib/Script/script_namespace';
 
 export const createScript = async (req: Request, res: Response) => {
         const { user_id } = req.params;
@@ -37,7 +37,7 @@ export const getScriptsByUserId = async (req: Request, res: Response) => {
         const userId = new Types.ObjectId(user_id);
 
         const getScript = await getScripts({user_id: userId})
-        console.log("scripts: ",  getScript)
+        // console.log("scripts: ",  getScript)
 
         return ResponseNamespace.sendSuccessMessage(
             res,
@@ -58,54 +58,21 @@ export const getScriptsByUserId = async (req: Request, res: Response) => {
 };
 
 
-
-export const deleteScriptsById = async (req: Request, res: Response) => {
-    const { user_id } = req.params;
-    const { scriptIds } = req.body; 
-try{
-    // Convert the string user_id to a Types.ObjectId
-    const userId = new Types.ObjectId(user_id);
-
-    const deleteScript = await deleteScripts({
-        user_id: userId,
-        scriptIds 
-    })
-
-    console.log("delete: ", deleteScript)
-    return ResponseNamespace.sendSuccessMessage(
-        res,
-        deleteScript,
-        res.status(200).statusCode,
-        'Deleted scripts successfully'
-    );
-}catch (error) {
-    console.log('Error deleting scripts', error, error && error.message);
-    return ResponseNamespace.sendErrorMessage(
-    req,
-    res,
-    error,
-    res.status(500).statusCode,
-    'Error deleting scripts'
-    );
-}
-};
-
-
 export const updateScriptTrash = async (req: Request, res: Response) => {
     const { user_id } = req.params;
     const { scriptIds } = req.body; 
-try{
-    // Convert the string user_id to a Types.ObjectId
-    const userId = new Types.ObjectId(user_id);
-
-    const trashScript = await trashScripts({
-        user_id: userId,
-        scriptIds 
-    })
-
-    // console.log("delete: ", deleteScript)
-    return ResponseNamespace.sendSuccessMessage(
-        res,
+    try{
+        // Convert the string user_id to a Types.ObjectId
+        const userId = new Types.ObjectId(user_id);
+        
+        const trashScript = await trashScripts({
+            user_id: userId,
+            scriptIds 
+        })
+        
+        // console.log("delete: ", deleteScript)
+        return ResponseNamespace.sendSuccessMessage(
+            res,
         trashScript,
         res.status(200).statusCode,
         'Deleted scripts successfully'
@@ -295,7 +262,7 @@ export const updateScripts = async (req: Request, res: Response) => {
             scripts
         })
 
-        console.log("updateResult: ", updateResults)
+        // console.log("updateResult: ", updateResults)
   
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -314,4 +281,42 @@ export const updateScripts = async (req: Request, res: Response) => {
       );
     }
 };
+
+
+
+
+
+
+
+
+// export const deleteScriptsById = async (req: Request, res: Response) => {
+            //     const { user_id } = req.params;
+            //     const { scriptIds } = req.body; 
+            // try{
+            //     // Convert the string user_id to a Types.ObjectId
+            //     const userId = new Types.ObjectId(user_id);
+            
+            //     const deleteScript = await deleteScripts({
+            //         user_id: userId,
+            //         scriptIds 
+            //     })
+            
+            //     console.log("delete: ", deleteScript)
+            //     return ResponseNamespace.sendSuccessMessage(
+            //         res,
+            //         deleteScript,
+            //         res.status(200).statusCode,
+            //         'Deleted scripts successfully'
+            //     );
+            // }catch (error) {
+            //     console.log('Error deleting scripts', error, error && error.message);
+            //     return ResponseNamespace.sendErrorMessage(
+            //     req,
+            //     res,
+            //     error,
+            //     res.status(500).statusCode,
+            //     'Error deleting scripts'
+            //     );
+            // }
+            // };
   
