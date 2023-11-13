@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "nitoons-backend",
+    "builds": [
+        {
+            "src": "src",
+            "use": "@vercel/node"
+        }
+    ]
+}
