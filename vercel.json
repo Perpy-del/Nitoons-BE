@@ -3,7 +3,7 @@
     "name": "nitoons-backend",
     "builds": [
         {
-            "src": "./src/app.ts",
+            "src": "./src/",
             "use": "@vercel/node"
         }
     ]
