@@ -23,18 +23,6 @@ export const getScripts = async (props: {
 };
 
 
-export const deleteScripts = async (props: {
-    user_id: Types.ObjectId;
-    scriptIds: string[];
-}) => {
-    const deletedScripts =  ScriptModel.deleteMany({
-         user_id: props.user_id,
-         _id: { $in: props.scriptIds }
-    });
-    return deletedScripts
-};
-
-
 export const trashScripts = async (props: {
     user_id: Types.ObjectId;
     scriptIds: string[];
@@ -182,4 +170,22 @@ export const updateAllScripts = async (props: {
     );
     return updatedScripts;
 };
+
+
+
+
+
+
+
+
+//export const deleteScripts = async (props: {
+    //     user_id: Types.ObjectId;
+    //     scriptIds: string[];
+    // }) => {
+    //     const deletedScripts =  ScriptModel.deleteMany({
+    //          user_id: props.user_id,
+    //          _id: { $in: props.scriptIds }
+    //     });
+    //     return deletedScripts
+    // };
 
