@@ -7,7 +7,7 @@ import { dBSetup } from './lib/db';
 import { config } from './config/index'
 import {scriptRouter} from './routers/scriptRouter'
 import {router as userRouter} from './routers/userRouter';
-import { globalErrorHandler } from '../src/utils/globalErrHandler';
+import { globalErrorHandler } from './utils/globalErrHandler';
 import { validatorNamespace } from 'controllers/middlewares/validators/userValidator';
 
 dotenv.config();
