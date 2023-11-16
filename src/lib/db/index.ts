@@ -1,1 +1,1 @@
-export { connectMongoDB as dBSetup } from './mongoDb';
+export { connectMongoDB as dBSetup } from './mongoDb'
