@@ -7,8 +7,8 @@ import ResponseNamespace from '../../utils/responses_namespace'
 // import { UserNamespace } from '../../lib/UserLogIn/user_login_namespace';
 import { newToken } from '../../controllers/middlewares/jwtHandler'
 import { config } from '../../config/index'
-import UserModel, { IUser } from './models/userModel'
-import otpModel, { IPin } from './models/otpModel'
+import UserModel from './models/userModel'
+import otpModel from './models/otpModel'
 dotenv.config()
 
 export default class UserController {
@@ -30,29 +30,7 @@ export default class UserController {
       template: './template/sendPin.handlebars',
       payload: { verificationPin: randomPin },
     }
-
-    //   const getUser = async (props: { email: string }) => {
-    //     return UserModel.findOne({
-    //       email: props.email,
-    //     });
-    //   };
-
-    //   export const UserNamespace = {
-    //     addAndLoginUser,
-    //     getUser,
-    //   };
-
-    // const existingEmail = await UserNamespace.getUser({
-    //   email: req.body.email,
-    // });
-
-    // export const otpNamespace = {
-    //   addNewPin,
-    //   getPin,
-    //   updatePinIsUsed,
-    //   getPinIsUsed,
-    // };
-
+    
     try {
       // if email already exists
       if (existingEmail) {
@@ -126,43 +104,14 @@ export default class UserController {
   public static async validateUser(req: Request, res: Response) {
     let { user_id, otp } = req.body
 
-    // const getPin = async (props: { userId: Types.ObjectId; otp: number }) => {
-    //   return otpModel.findOne({ user_id: props.userId, otp: props.otp });
-    // };
-
-    // const getPinIsUsed = async (props: { userId: Types.ObjectId; otp: number }) => {
-    //   return otpModel.findOne({
-    //     user_id: props.userId,
-    //     otp: props.otp,
-    //     is_used: true,
-    //   });
-    // };
-
-    // const updatePinIsUsed = async (props: {
-    //   otp: number;
-    //   userId: Types.ObjectId;
-    // }) => {
-    //   return otpModel.findOneAndUpdate(
-    //     {
-    //       user_id: props.userId,
-    //       otp: props.otp,
-    //     },
-    //     {
-    //       is_used: true,
-    //     },
-    //     { new: true }
-    //   );
-    // };
-
     const modelExist = await otpModel.findOne({
-      userId: user_id,
+      user_id,
       otp,
     })
 
     try {
       // Check if the pin is expired
       if (UserPinController.checkIfPinIsExpired(modelExist?.expiry_time)) {
-        // console.log(modelExist?.expiry_time.getSeconds());
         return ResponseNamespace.BadUserRequestError(
           res,
           'Verification pin has expired. Click on Resend pin to generate another pin.',
@@ -171,7 +120,7 @@ export default class UserController {
 
       // Check if the pin is used
       else if (
-        await otpModel.findOne({ userId: user_id, otp, is_used: true })
+        await otpModel.findOne({ user_id, otp, is_used: true })
       ) {
         return ResponseNamespace.BadUserRequestError(
           res,
@@ -194,7 +143,7 @@ export default class UserController {
         await otpModel.findOneAndUpdate(
           {
             otp,
-            userId: user_id,
+            user_id,
           },
           { is_used: true },
           { new: true },

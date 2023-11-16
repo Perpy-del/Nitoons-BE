@@ -32,6 +32,7 @@ scriptRouter.put(
 )
 scriptRouter.put(
   '/update-scripts/trash/:user_id',
+  authMiddleware,
   validateScriptId,
   ScriptController.updateScriptTrash,
 )
@@ -54,7 +55,7 @@ scriptRouter.put(
   '/update-scripts/duplicate-script/:user_id',
   ScriptController.duplicateCreatedScript,
 )
-scriptRouter.put(
+scriptRouter.delete(
   '/delete-scripts/delete-one/:user_id',
   authMiddleware,
   ScriptController.deleteScript,
