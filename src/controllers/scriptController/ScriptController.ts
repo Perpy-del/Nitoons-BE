@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import ResponseNamespace from '../../utils'
-import ScriptNamespace from '../lib/Scripts/Script'
+import ResponseNamespace from '../../utils/responses_namespace'
+import ScriptNamespace from '../../lib/Scripts/Script'
 import { Types } from 'mongoose'
 
 export default class ScriptController {
