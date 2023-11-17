@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose';
 
 export interface IUser {
-  email: string
+  email: string;
 }
 
 export interface IUserSchema extends IUser, Document {}
@@ -17,9 +17,9 @@ const UserSchema = new Schema<IUser>(
       trim: true,
     },
   },
-  { timestamps: true },
-)
+  { timestamps: true }
+);
 
-const UserModel = model<IUserSchema>('user', UserSchema)
+const UserModel = model<IUserSchema>('user', UserSchema);
 
-export default UserModel
+export default UserModel;

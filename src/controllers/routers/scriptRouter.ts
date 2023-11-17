@@ -3,7 +3,7 @@ import {
   validateUserId,
   validateScriptId,
 } from '../middlewares/validators/scriptValidator'
-import ScriptController from '../../lib/Scripts/ScriptController'
+import ScriptController from '../ScriptController'
 import { authMiddleware } from '../middlewares/jwtHandler'
 
 export const scriptRouter = express.Router()
@@ -19,11 +19,11 @@ scriptRouter.get(
   validateUserId,
   ScriptController.getScriptsByUserId,
 )
-scriptRouter.delete(
-  '/delete-scripts/:user_id',
-  validateScriptId,
-  ScriptController.deleteScriptsById,
-)
+// scriptRouter.delete(
+//   '/delete-scripts/:user_id',
+//   validateScriptId,
+//   ScriptController.deleteScriptsById,
+// )
 scriptRouter.put(
   '/update-scripts/:user_id',
   authMiddleware,

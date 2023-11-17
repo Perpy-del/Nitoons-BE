@@ -1,11 +1,15 @@
-import ChapterModel, { IChapter } from './models/ChapterModel'
-import ResponseNamespace from '../../utils/responses_namespace'
+import ChapterModel, { IChapter } from '../lib/Scripts/models/ChapterModel'
+import ResponseNamespace from '../utils/responses_namespace'
 import { Request, Response } from 'express'
+import ChapterNamespace from '../lib/Scripts/Chapter'
+import { Types } from 'mongoose'
+
 export default class ScriptChapters {
-  public static async addChapter(req: Request, res: Response) {
-    const { script_id }: IChapter = req.body
+  public static async createNewChapter(req: Request, res: Response) {
+    const scriptId = req.body.script_id
+
     try {
-      const newChapter = await ChapterModel.create({ script_id })
+      const newChapter = await ChapterNamespace.addChapter({ scriptId })
 
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -25,35 +29,18 @@ export default class ScriptChapters {
     }
   }
 
-  public static async updateChapter(req: Request, res: Response) {
-    const scriptId: string = req.params.script_id
-    const chapterId: IChapter = req.body.chapter_id
-    const updateDetails: IChapter = { ...req.body }
+  public static async updateChapterDetails(req: Request, res: Response) {
+    const chapterId = req.body.chapter_id
+    const updateDetails = { ...req.body }
 
     try {
-      const updateQuery = await ChapterModel.findOne({
-        _id: chapterId,
-        script_id: scriptId,
+      const updatedChapter = await ChapterNamespace.updateChapter(chapterId, {
+        ...updateDetails,
       })
-      if (updateDetails?.title) {
-        updateQuery.title = updateDetails.title
-      }
-      if (updateDetails?.content) {
-        updateQuery.content = updateDetails.content
-      }
-
-      const result = await ChapterModel.updateOne(
-        {
-          _id: chapterId,
-          script_id: scriptId,
-        },
-        { ...updateQuery },
-        { new: true },
-      )
 
       return ResponseNamespace.sendSuccessMessage(
         res,
-        result,
+        updatedChapter,
         res.status(200).statusCode,
         'Chapter updated successfully',
       )
@@ -73,19 +60,12 @@ export default class ScriptChapters {
     }
   }
 
-  public static async deleteChapter(req: Request, res: Response) {
+  public static async deleteScriptChapter(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
     const chapterId: string = req.body.chapter_id
 
     try {
-      const deletedChapter = await ChapterModel.findOneAndUpdate(
-        {
-          _id: chapterId,
-          script_id: scriptId,
-        },
-        { deleted: true },
-        { new: true },
-      )
+      const deletedChapter = await ChapterNamespace.deleteChapter({scriptId, chapterId})
 
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -109,15 +89,12 @@ export default class ScriptChapters {
     }
   }
 
-  public static async getChapterById(req: Request, res: Response) {
+  public static async getChapter(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
     const chapterId: string = req.body.chapter_id
 
     try {
-      const data = await ChapterModel.findById({
-        _id: chapterId,
-        script_id: scriptId,
-      })
+      const data = await ChapterNamespace.getChapterById({scriptId, chapterId})
 
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -141,16 +118,12 @@ export default class ScriptChapters {
     }
   }
 
-  public static async getAllChapters(req: Request, res: Response) {
+  public static async getAllChaptersInScript(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
     const chapterId: string = req.body.chapter_id
 
     try {
-      const data = await ChapterModel.find({
-        _id: chapterId,
-        script_id: scriptId,
-        deleted: { $ne: true },
-      })
+      const data = await ChapterNamespace.getAllChapters({scriptId, chapterId});
 
       return ResponseNamespace.sendSuccessMessage(
         res,

@@ -80,7 +80,7 @@ export const chapterValidator = (
       }),
   })
 
-  const { error } = validateChapter.validate(script_id, chapter_id);
+  const { error } = validateChapter.validate({script_id, chapter_id});
   if (error) {
     console.log(error)
     throw error
