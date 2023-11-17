@@ -208,38 +208,6 @@ export default class ScriptController {
     const { user_id } = req.params
     const { script_id } = req.body
     try {
-      // Convert the string user_id to a Types.ObjectId
-      //   const userId = new Types.ObjectId(user_id);
-
-      // export const duplicateScript = async (props: {
-      //   user_id: Types.ObjectId;
-      //   script_id: Types.ObjectId;
-      // }) => {
-      //   try {
-      //     // Step 1: Find the original script
-      //     const originalScript = await ScriptModel.findOne({
-      //       user_id: props.user_id,
-      //       _id: props.script_id,
-      //     });
-
-      //     // Step 2: Duplicate the script content
-      //     const duplicatedScriptContent = { ...originalScript.toObject() };
-      //     delete duplicatedScriptContent._id; // Remove the original script ID to generate a new one
-
-      //     // Step 3: Create a new script with duplicated content
-      //     const duplicatedScript = await ScriptModel.create({
-      //       user_id: props.user_id,
-      //       ...duplicatedScriptContent,
-      //     });
-
-      //     return duplicatedScript;
-      //   } catch (error) {
-      //     // Handle any errors that might occur during the process
-      //     console.error('Error duplicating script:', error);
-      //     throw new Error('Failed to duplicate script');
-      //   }
-      // };
-
       const originalScript = await ScriptModel.findOne({
         user_id,
         _id: script_id,

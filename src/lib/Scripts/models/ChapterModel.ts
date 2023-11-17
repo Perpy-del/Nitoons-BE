@@ -1,4 +1,4 @@
-import { Schema, model, Types, Document } from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
 export interface IChapter extends Document {
   title: string
@@ -21,7 +21,7 @@ const ChapterSchema: Schema = new Schema(
     },
     content: {
       type: Schema.Types.Mixed,
-      ref: 'Paragraph',
+      ref: 'paragraph',
     },
     deleted: {
       type: Boolean,
