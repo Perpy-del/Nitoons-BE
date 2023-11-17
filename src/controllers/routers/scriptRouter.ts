@@ -3,7 +3,7 @@ import {
   validateUserId,
   validateScriptId,
 } from '../middlewares/validators/scriptValidator'
-import ScriptController from '../ScriptController'
+import ScriptController from '../scriptController/ScriptController'
 import { authMiddleware } from '../middlewares/jwtHandler'
 
 export const scriptRouter = express.Router()

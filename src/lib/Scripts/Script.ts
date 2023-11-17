@@ -12,14 +12,16 @@ export default class ScriptNamespace {
     return savedScript
   }
 
-  public static async getScripts (scriptDetails: { user_id: Types.ObjectId }): Promise<IScript[]> {
+  public static async getScripts(scriptDetails: {
+    user_id: Types.ObjectId
+  }): Promise<IScript[]> {
     const userScripts = ScriptModel.find({
       user_id: scriptDetails.user_id,
     })
     return userScripts
   }
 
-  public static async trashScripts (scriptDetails: {
+  public static async trashScripts(scriptDetails: {
     user_id: Types.ObjectId
     scriptIds: string[]
   }) {
@@ -35,7 +37,7 @@ export default class ScriptNamespace {
     return trashScripts
   }
 
-  public static async updateScriptTitle (scriptDetails: {
+  public static async updateScriptTitle(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
     title: string
@@ -53,7 +55,7 @@ export default class ScriptNamespace {
     return titleScripts
   }
 
-  public static async updatetrashScript (scriptDetails: {
+  public static async updatetrashScript(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
   }): Promise<IScript> {
@@ -70,7 +72,7 @@ export default class ScriptNamespace {
     return trashedScript
   }
 
-  public static async updatetrashScriptFalse (scriptDetails: {
+  public static async updatetrashScriptFalse(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
   }): Promise<IScript> {
@@ -87,7 +89,7 @@ export default class ScriptNamespace {
     return trashedScript
   }
 
-  public static async deleteSingleScript (scriptDetails: {
+  public static async deleteSingleScript(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
   }): Promise<IScript> {
@@ -104,7 +106,7 @@ export default class ScriptNamespace {
     return deletedScript
   }
 
-  public static async duplicateScript (scriptDetails: {
+  public static async duplicateScript(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
   }): Promise<IScript> {
@@ -133,7 +135,7 @@ export default class ScriptNamespace {
     }
   }
 
-  public static async updateAllScripts (scriptDetails: {
+  public static async updateAllScripts(scriptDetails: {
     user_id: Types.ObjectId
     scripts: Array<{
       _id: Types.ObjectId

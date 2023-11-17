@@ -1,5 +1,5 @@
 import express from 'express'
-import UserController from '../Users/UserController'
+import UserController from '../userController/userController'
 import { validatorNamespace } from '../middlewares/validators/userValidator'
 import { authMiddleware } from '../middlewares/jwtHandler'
 

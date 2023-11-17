@@ -3,8 +3,9 @@ import {
   addChapterValidator,
   updateChapterValidator,
   chapterValidator,
+  allChaptersValidator,
 } from '../middlewares/validators/chapterValidator'
-import ScriptChapters from '../ChapterController'
+import ScriptChapters from '../scriptController/ChapterController'
 import { authMiddleware } from '../middlewares/jwtHandler'
 
 export const router = express.Router()
@@ -40,6 +41,6 @@ router.get(
 router.get(
   '/all-chapters/:script_id',
   authMiddleware,
-  chapterValidator,
+  allChaptersValidator,
   ScriptChapters.getAllChaptersInScript,
 )

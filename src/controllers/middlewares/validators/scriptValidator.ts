@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import { Request, Response, NextFunction } from 'express'
 
+//Validate User Id
 export function validateUserId(
   req: Request,
   res: Response,

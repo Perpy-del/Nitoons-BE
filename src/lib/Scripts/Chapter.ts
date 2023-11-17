@@ -1,3 +1,4 @@
+import { StringDecoder } from 'string_decoder'
 import ChapterModel, { IChapter } from '../Scripts/models/ChapterModel'
 
 export default class ChapterNamespace {
@@ -64,12 +65,8 @@ export default class ChapterNamespace {
     })
   }
 
-  public static async getAllChapters(chapterDetails: {
-    scriptId: string
-    chapterId: string
-  }) {
+  public static async getAllChapters(chapterDetails: { scriptId: string }) {
     return ChapterModel.find({
-      _id: chapterDetails.chapterId,
       script_id: chapterDetails.scriptId,
       deleted: { $ne: true },
     })

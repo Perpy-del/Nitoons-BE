@@ -1,4 +1,4 @@
-import otpModel, { IPin } from '../Users/models/otpModel';
+import otpModel, { IPin } from '../Users/models/otpModel'
 import { Types } from 'mongoose'
 
 export default class PinNamespace {
@@ -23,7 +23,10 @@ export default class PinNamespace {
     return otpModel.findOne({ user_id: otpDetails.userId, otp: otpDetails.otp })
   }
 
-  public static async getPinIsUsed(otpDetails: { userId: Types.ObjectId; otp: number }): Promise<IPin> {
+  public static async getPinIsUsed(otpDetails: {
+    userId: Types.ObjectId
+    otp: number
+  }): Promise<IPin> {
     return otpModel.findOne({
       user_id: otpDetails.userId,
       otp: otpDetails.otp,
@@ -31,7 +34,10 @@ export default class PinNamespace {
     })
   }
 
-  public static async updatePinIsUsed(otpDetails: { otp: number; userId: Types.ObjectId }): Promise<IPin> {
+  public static async updatePinIsUsed(otpDetails: {
+    otp: number
+    userId: Types.ObjectId
+  }): Promise<IPin> {
     return otpModel.findOneAndUpdate(
       {
         user_id: otpDetails.userId,

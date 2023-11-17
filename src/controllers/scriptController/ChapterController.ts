@@ -1,7 +1,7 @@
-import ChapterModel, { IChapter } from '../lib/Scripts/models/ChapterModel'
-import ResponseNamespace from '../utils/responses_namespace'
+import ChapterModel, { IChapter } from '../../lib/Scripts/models/ChapterModel'
+import ResponseNamespace from '../../utils/responses_namespace'
 import { Request, Response } from 'express'
-import ChapterNamespace from '../lib/Scripts/Chapter'
+import ChapterNamespace from '../../lib/Scripts/Chapter'
 import { Types } from 'mongoose'
 
 export default class ScriptChapters {
@@ -65,7 +65,10 @@ export default class ScriptChapters {
     const chapterId: string = req.body.chapter_id
 
     try {
-      const deletedChapter = await ChapterNamespace.deleteChapter({scriptId, chapterId})
+      const deletedChapter = await ChapterNamespace.deleteChapter({
+        scriptId,
+        chapterId,
+      })
 
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -94,7 +97,10 @@ export default class ScriptChapters {
     const chapterId: string = req.body.chapter_id
 
     try {
-      const data = await ChapterNamespace.getChapterById({scriptId, chapterId})
+      const data = await ChapterNamespace.getChapterById({
+        scriptId,
+        chapterId,
+      })
 
       return ResponseNamespace.sendSuccessMessage(
         res,
@@ -120,10 +126,11 @@ export default class ScriptChapters {
 
   public static async getAllChaptersInScript(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
-    const chapterId: string = req.body.chapter_id
 
     try {
-      const data = await ChapterNamespace.getAllChapters({scriptId, chapterId});
+      const data = await ChapterNamespace.getAllChapters({
+        scriptId,
+      })
 
       return ResponseNamespace.sendSuccessMessage(
         res,

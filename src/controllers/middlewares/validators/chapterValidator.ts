@@ -28,6 +28,7 @@ export const updateChapterValidator = (
   next: NextFunction,
 ) => {
   const { script_id } = req.params
+  const { chapter_id, title, content } = req.body
   const validateUpdateChapter = Joi.object({
     script_id: Joi.string()
       .regex(/^[0-9a-fA-F]{24}$/)
@@ -49,7 +50,12 @@ export const updateChapterValidator = (
     }),
   })
 
-  const { error } = validateUpdateChapter.validate(script_id, req.body)
+  const { error } = validateUpdateChapter.validate({
+    script_id,
+    chapter_id,
+    title,
+    content,
+  })
   if (error) {
     console.log(error)
     throw error
@@ -80,7 +86,31 @@ export const chapterValidator = (
       }),
   })
 
-  const { error } = validateChapter.validate({script_id, chapter_id});
+  const { error } = validateChapter.validate({ script_id, chapter_id })
+  if (error) {
+    console.log(error)
+    throw error
+  }
+  next()
+}
+
+export const allChaptersValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { script_id } = req.params
+
+  const validateChaptersInScript = Joi.object({
+    script_id: Joi.string()
+      .regex(/^[0-9a-fA-F]{24}$/)
+      .required()
+      .messages({
+        'string.pattern.base': 'Invalid script id',
+      }),
+  })
+
+  const { error } = validateChaptersInScript.validate({ script_id })
   if (error) {
     console.log(error)
     throw error
