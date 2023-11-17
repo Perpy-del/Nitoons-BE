@@ -2,7 +2,6 @@ import express from 'express'
 import {
   validateUserId,
   validateScriptId,
-  validateScriptData,
 } from '../middlewares/validators/scriptValidator'
 import ScriptController from '../../lib/Scripts/ScriptController'
 import { authMiddleware } from '../middlewares/jwtHandler'

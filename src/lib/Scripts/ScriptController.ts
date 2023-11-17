@@ -275,7 +275,7 @@ export default class ScriptController {
 
     try {
       const updateScripts = await Promise.all(
-        scripts.map(async (script: any) => {
+        scripts.map(async (script: IScript) => {
           const { _id, ...scriptUpdates } = script
           const updatedScript = await ScriptModel.findOneAndUpdate(
             {

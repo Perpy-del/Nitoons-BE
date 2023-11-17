@@ -1,17 +1,16 @@
 import { Schema, model, Document } from 'mongoose'
 
 export interface IChapter extends Document {
-  title: string
+  title?: string
   script_id: string
-  content: string
-  deleted: boolean
+  content?: string
+  deleted?: boolean
 }
 
 const ChapterSchema: Schema = new Schema(
   {
     title: {
       type: String,
-      required: true,
       default: 'Chapter One',
     },
     script_id: {
