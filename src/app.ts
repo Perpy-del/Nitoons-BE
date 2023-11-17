@@ -7,6 +7,7 @@ import { dBSetup } from './lib/db'
 import { config } from './config/index'
 import { scriptRouter } from './controllers/routers/scriptRouter'
 import { router as userRouter } from './controllers/routers/userRouter'
+import { router as chapterRouter } from './controllers/routers/chapterRouter'
 import { globalErrorHandler } from '../src/utils/globalErrHandler'
 
 dotenv.config()
@@ -42,3 +43,4 @@ app.use(globalErrorHandler)
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/script', scriptRouter)
+app.use('/api/v1/chapters', chapterRouter)
