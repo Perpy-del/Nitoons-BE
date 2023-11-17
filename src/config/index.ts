@@ -1,20 +1,20 @@
-import dotenv from "dotenv";
-dotenv.config();
-import { development } from "./development";
-import { production } from "./production";
+import dotenv from 'dotenv'
+dotenv.config()
+import { development } from './development'
+import { production } from './production'
 
-const environment = process.env.NODE_ENV;
+const environment = process.env.NODE_ENV
 
-let config: any;
+let config: any
 
-if (!environment) throw new Error("No environment setup");
+if (!environment) throw new Error('No environment setup')
 
-console.log(`server setup to ${environment}!!!👨‍💻`);
+console.log(`server setup to ${environment}!!!👨‍💻`)
 
-if (environment.trim() === "development") {
-  config = {...development};
+if (environment.trim() === 'development') {
+  config = { ...development }
 } else {
-    config = {...production};
+  config = { ...production }
 }
 
-export { config };
+export { config }

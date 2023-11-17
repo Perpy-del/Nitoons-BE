@@ -1,14 +1,14 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-dotenv.config();
-import { config } from '../../config/index';
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
+import { config } from '../../config/index'
 
 export const connectMongoDB = async () => {
-  let connection;
+  let connection
   try {
-    connection = await mongoose.connect(config.dbUrl);
-    return connection;
+    connection = await mongoose.connect(config.dbUrl)
+    return connection
   } catch (err) {
-    console.log(err.message);
+    console.log(err.message)
   }
-};
+}
