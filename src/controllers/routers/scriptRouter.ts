@@ -22,6 +22,12 @@ scriptRouter.get(
   validateUserId,
   ScriptController.getScriptsByUserId,
 )
+scriptRouter.get(
+  '/fetch-script/:user_id',
+  authMiddleware,
+  validateScriptId,
+  ScriptController.getOneScriptById,
+)
 scriptRouter.put(
   '/update-scripts/:user_id',
   authMiddleware,
