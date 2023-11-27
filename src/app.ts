@@ -9,7 +9,7 @@ import { scriptRouter } from './controllers/routers/scriptRouter'
 import { router as userRouter } from './controllers/routers/userRouter'
 import { router as chapterRouter } from './controllers/routers/chapterRouter'
 import { globalErrorHandler } from '../src/utils/globalErrHandler'
-import { Server as SocketIOServer } from 'socket.io';
+import { Server as SocketIOServer } from 'socket.io'
 
 dotenv.config()
 
@@ -31,23 +31,23 @@ app.use(express.json())
 const port = config.port || 5000
 
 const server = http.createServer(app)
-const io = new SocketIOServer(server);
+const io = new SocketIOServer(server)
 
-io.on('connection', (socket) => {
-  console.log('Client connected');
+io.on('connection', socket => {
+  console.log('Client connected')
 
-  socket.on('message', (message) => {
-    console.log(`Received: ${message}`);
-    io.emit('message', message);
+  socket.on('message', message => {
+    console.log(`Received: ${message}`)
+    io.emit('message', message)
   })
 
-  socket.on("hello2", (arg, callback) => {
-    console.log(arg); // "world"
-    callback("got it");
-  });
+  socket.on('hello2', (arg, callback) => {
+    console.log(arg) // "world"
+    callback('got it')
+  })
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
+    console.log('Client disconnected')
   })
 })
 
