@@ -55,6 +55,33 @@ export default class ScriptController {
     }
   }
 
+  public static async getOneScriptById(req: Request, res: Response) {
+    const { script_id } = req.body;
+    const { user_id } = req.params;
+    try {
+      const scriptId = new Types.ObjectId(script_id)
+      const userId = new Types.ObjectId(user_id)
+
+      const getScript = await ScriptNamespace.getOneScript({ script_id: scriptId, user_id: userId })
+
+      return ResponseNamespace.sendSuccessMessage(
+        res,
+        getScript,
+        res.status(200).statusCode,
+        'Scripts retrieved successfully',
+      )
+    } catch (error) {
+      console.log('Error retrieving scripts', error, error && error.message)
+      return ResponseNamespace.sendErrorMessage(
+        req,
+        res,
+        error,
+        res.status(500).statusCode,
+        'Error retrieving scripts',
+      )
+    }
+  }
+
   public static async updateScriptTrash(req: Request, res: Response) {
     const { user_id } = req.params
     const { scriptIds } = req.body
