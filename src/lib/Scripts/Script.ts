@@ -21,6 +21,17 @@ export default class ScriptNamespace {
     return userScripts
   }
 
+  public static async getOneScript(scriptDetails: {
+    user_id: Types.ObjectId
+    script_id: Types.ObjectId
+  }) {
+    const userScript = ScriptModel.findOne({
+      script_id: scriptDetails.script_id,
+      user_id: scriptDetails.user_id,
+    })
+    return userScript
+  }
+
   public static async trashScripts(scriptDetails: {
     user_id: Types.ObjectId
     scriptIds: string[]
