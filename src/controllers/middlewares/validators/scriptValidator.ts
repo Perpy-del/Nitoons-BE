@@ -23,8 +23,30 @@ export function validateUserId(
   next()
 }
 
-//Validate User Id And  Script Id
+// validate script id
 export function validateScriptId(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { script_id } = req.params
+
+  const user_idSchema = Joi.string()
+    .pattern(new RegExp('^[0-9a-fA-F]{24}$'))
+    .required()
+  const validationResult = user_idSchema.validate(script_id)
+
+  if (validationResult.error) {
+    return res
+      .status(400)
+      .json({ error: `${validationResult.error.details[0].message},` })
+  }
+
+  next()
+}
+
+//Validate User Id And  Script Id
+export function validateScriptAndUserId(
   req: Request,
   res: Response,
   next: NextFunction,

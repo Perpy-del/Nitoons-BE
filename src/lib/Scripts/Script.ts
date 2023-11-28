@@ -22,12 +22,10 @@ export default class ScriptNamespace {
   }
 
   public static async getOneScript(scriptDetails: {
-    user_id: Types.ObjectId
     script_id: Types.ObjectId
   }) {
     const userScript = ScriptModel.findOne({
-      script_id: scriptDetails.script_id,
-      user_id: scriptDetails.user_id,
+      _id: scriptDetails.script_id,
     })
     return userScript
   }
@@ -52,7 +50,7 @@ export default class ScriptNamespace {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
     title: string
-  }): Promise<IScript> {
+  }) {
     const titleScripts = ScriptModel.findOneAndUpdate(
       {
         user_id: scriptDetails.user_id,
@@ -69,7 +67,7 @@ export default class ScriptNamespace {
   public static async updatetrashScript(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
-  }): Promise<IScript> {
+  }) {
     const trashedScript = ScriptModel.findOneAndUpdate(
       {
         user_id: scriptDetails.user_id,
@@ -86,7 +84,7 @@ export default class ScriptNamespace {
   public static async updatetrashScriptFalse(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
-  }): Promise<IScript> {
+  }){
     const trashedScript = ScriptModel.findOneAndUpdate(
       {
         user_id: scriptDetails.user_id,
@@ -103,7 +101,7 @@ export default class ScriptNamespace {
   public static async deleteSingleScript(scriptDetails: {
     user_id: Types.ObjectId
     script_id: Types.ObjectId
-  }): Promise<IScript> {
+  }){
     const deletedScript = ScriptModel.findOneAndUpdate(
       {
         user_id: scriptDetails.user_id,
@@ -129,7 +127,7 @@ export default class ScriptNamespace {
       })
 
       // Step 2: Duplicate the script content
-      const duplicatedScriptContent = { ...originalScript.toObject() }
+      const duplicatedScriptContent = { ...originalScript?.toObject() }
       delete duplicatedScriptContent._id // Remove the original script ID to generate a new one
 
       // Step 3: Create a new script with duplicated content
@@ -158,7 +156,7 @@ export default class ScriptNamespace {
       updated_at: Date
       __v: number
     }>
-  }): Promise<IScript[]> {
+  }) {
     const updatedScripts = await Promise.all(
       scriptDetails.scripts.map(async script => {
         const { _id, ...scriptUpdates } = script

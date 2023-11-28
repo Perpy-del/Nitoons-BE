@@ -1,8 +1,9 @@
 import express from 'express'
 import {
   validateUserId,
-  validateScriptIds,
   validateScriptId,
+  validateScriptIds,
+  validateScriptAndUserId,
   validateScriptTitle,
   validateScriptData,
 } from '../middlewares/validators/scriptValidator'
@@ -23,7 +24,7 @@ scriptRouter.get(
   ScriptController.getScriptsByUserId,
 )
 scriptRouter.get(
-  '/fetch-script/:user_id',
+  '/fetch-script/:script_id',
   authMiddleware,
   validateScriptId,
   ScriptController.getOneScriptById,
@@ -49,24 +50,24 @@ scriptRouter.put(
 scriptRouter.put(
   '/update-scripts/trash-one/:user_id',
   authMiddleware,
-  validateScriptId,
+  validateScriptAndUserId,
   ScriptController.trashScript,
 )
 scriptRouter.put(
   '/update-scripts/untrash-one/:user_id',
   authMiddleware,
-  validateScriptId,
+  validateScriptAndUserId,
   ScriptController.removeTrashScript,
 )
 scriptRouter.put(
   '/update-scripts/duplicate-script/:user_id',
   authMiddleware,
-  validateScriptId,
+  validateScriptAndUserId,
   ScriptController.duplicateCreatedScript,
 )
 scriptRouter.put(
   '/delete-scripts/delete-one/:user_id',
-  validateScriptId,
+  validateScriptAndUserId,
   ScriptController.deleteScript,
 )
 // scriptRouter.delete('/delete-scripts/:user_id', validateScriptId, deleteScriptsById);
