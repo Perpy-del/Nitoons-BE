@@ -8,6 +8,7 @@ import { config } from './config/index'
 import { scriptRouter } from './controllers/routers/scriptRouter'
 import { router as userRouter } from './controllers/routers/userRouter'
 import { router as chapterRouter } from './controllers/routers/chapterRouter'
+import { router as paragraphRouter } from './controllers/routers/paragraphRouter'
 import { globalErrorHandler } from '../src/utils/globalErrHandler'
 import { Server as SocketIOServer } from 'socket.io'
 import ScriptChapters from './controllers/scriptController/ChapterController'
@@ -72,3 +73,4 @@ app.use(globalErrorHandler)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/script', scriptRouter)
 app.use('/api/v1/chapters', chapterRouter)
+app.use('/api/v1/paragraphs', paragraphRouter)
