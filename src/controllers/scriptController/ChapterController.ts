@@ -3,29 +3,67 @@ import ResponseNamespace from '../../utils/responses_namespace'
 import { Request, Response } from 'express'
 import ChapterNamespace from '../../lib/Scripts/Chapter'
 import { Types } from 'mongoose'
+import { io } from '../../app';
 
 export default class ScriptChapters {
-  public static async createNewChapter(req: Request, res: Response) {
-    const scriptId = req.body.script_id
+  // public static async createNewChapter(req: Request, res: Response) {
+  //   const scriptId = req.body.script_id
 
+  //   try {
+  //     const newChapter = await ChapterNamespace.addChapter({ scriptId })
+
+  //     return ResponseNamespace.sendSuccessMessage(
+  //       res,
+  //       newChapter,
+  //       res.status(200).statusCode,
+  //       'Chapter created successfully',
+  //     )
+  //   } catch (error) {
+  //     console.log('Error creating new chapter', error, error && error.message)
+  //     return ResponseNamespace.sendErrorMessage(
+  //       req,
+  //       res,
+  //       error,
+  //       res.status(500).statusCode,
+  //       'Error creating new chapter',
+  //     )
+  //   }
+  // }
+
+  // public static async createNewChapter(req: Request, res: Response) {
+  //   const scriptId = req.body.script_id
+
+  //   try {
+  //     const newChapter = await ChapterNamespace.addChapter({ scriptId })
+      
+  //     io.emit('new-chapter', { scriptId, chapter: newChapter })
+
+  //     return ResponseNamespace.sendSuccessMessage(
+  //       res,
+  //       newChapter,
+  //       res.status(200).statusCode,
+  //       'Chapter created successfully',
+  //     )
+  //   } catch (error) {
+  //     console.log('Error creating new chapter', error, error && error.message)
+  //     return ResponseNamespace.sendErrorMessage(
+  //       req,
+  //       res,
+  //       error,
+  //       res.status(500).statusCode,
+  //       'Error creating new chapter',
+  //     )
+  //   }
+  // }
+
+  public static async createNewChapter(scriptId: any) {
     try {
       const newChapter = await ChapterNamespace.addChapter({ scriptId })
+      
+      io.emit('new-chapter', {chapter: newChapter })
 
-      return ResponseNamespace.sendSuccessMessage(
-        res,
-        newChapter,
-        res.status(200).statusCode,
-        'Chapter created successfully',
-      )
     } catch (error) {
       console.log('Error creating new chapter', error, error && error.message)
-      return ResponseNamespace.sendErrorMessage(
-        req,
-        res,
-        error,
-        res.status(500).statusCode,
-        'Error creating new chapter',
-      )
     }
   }
 

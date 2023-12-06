@@ -10,6 +10,7 @@ import { router as userRouter } from './controllers/routers/userRouter'
 import { router as chapterRouter } from './controllers/routers/chapterRouter'
 import { globalErrorHandler } from '../src/utils/globalErrHandler'
 import { Server as SocketIOServer } from 'socket.io'
+import ScriptChapters from './controllers/scriptController/ChapterController'
 
 dotenv.config()
 
@@ -31,7 +32,7 @@ app.use(express.json())
 const port = config.port || 5000
 
 const server = http.createServer(app)
-const io = new SocketIOServer(server)
+export const io = new SocketIOServer(server)
 
 io.on('connection', socket => {
   console.log('Client connected')
@@ -46,10 +47,16 @@ io.on('connection', socket => {
     callback('got it')
   })
 
+  socket.on('create-chapter', (arg) => {
+    ScriptChapters.createNewChapter(arg.scriptId)
+    console.log("creat_chapter: ",arg)
+  })
+
   socket.on('disconnect', () => {
     console.log('Client disconnected')
   })
 })
+
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`)
