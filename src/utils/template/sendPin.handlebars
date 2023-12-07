@@ -1,13 +1,76 @@
 <html>
-    <head>
-
-    </head>
-    <body>
-        <header>
-            <h1>Welcome to Nitoons</h1>
-            <img src="" alt="Nitoons-logo" />
-        </header>
-        <p>Thank you for choosing Nitoons!</p>
-        <p>Log in using pin: {{verificationPin}} and enjoy the best script writing experience. This pin will expire in five minutes.</p>
-    </body>
+  <head>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap'
+      rel='stylesheet'
+    />
+    <style>
+      body { 
+        background-color: #353538; 
+        text-align: center; 
+        padding: 10px;
+        border-radius: 4px; 
+      } 
+      .header { 
+        display: flex; 
+        flex-direction: row;
+        align-items: center; 
+        justify-content: center; 
+      } 
+      h1 { 
+        font-family: 'Lato', sans-serif;
+        font-size: 18px; 
+      } 
+      img { 
+        width: auto; 
+      } 
+      p { 
+        font-family: 'Lato', sans-serif; 
+        font-size: 12px; 
+        font-weight: 300; 
+      } 
+      .pin { 
+        font-family: 'Lato', sans-serif; 
+        font-size: 14px; 
+        font-weight: 700; 
+        color: #D90368;
+        padding: 3px 5px; 
+        border-radius: 3px; 
+        display: block; 
+        background-color: #1f1e1e; 
+        margin: 5px auto; 
+      } 
+      .pin-expiry { 
+        font-family: 'Lato', sans-serif; 
+        font-size: 12px; 
+        font-weight: 300; 
+        font-style: italic;
+        padding-top: 10px; 
+      }
+      .nitoons {
+        padding-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class='header'>
+        <h1>Welcome to </h1>
+        <img
+          src='https://res.cloudinary.com/dondeickl/image/upload/v1701909776/Nitoons_purple_3_snunna.svg'
+          alt='Nitoons-logo'
+          class='nitoons'
+        />
+      </div>
+    </header>
+    <p>Thank you for choosing Nitoons!</p>
+    <p>Log in using pin below:
+      <span class='pin'>{{verificationPin}}</span>
+      Experience the utmost pleasure in crafting scripts and elevate your
+      scriptwriting journey to unparalleled excellence..
+    </p>
+    <p class='pin-expiry'>This pin will expire in five minutes.</p>
+  </body>
 </html>
