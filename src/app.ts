@@ -50,7 +50,17 @@ io.on('connection', socket => {
 
   socket.on('create-chapter', (arg) => {
     ScriptChapters.createNewChapter(arg.scriptId)
-    console.log("creat_chapter: ",arg)
+    // console.log("creat_chapter: ",arg)
+  })
+
+  socket.on('fetch-chapter', (arg) => {
+    ScriptChapters.fetchChapterDetails(arg.chapter_id)
+    // console.log("creat_chapter: ",arg)
+  })
+
+  socket.on('update-chapter', (arg) => {
+    // console.log("update_chapter: ",arg)
+    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
   })
 
   socket.on('disconnect', () => {

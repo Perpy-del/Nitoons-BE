@@ -67,36 +67,58 @@ export default class ScriptChapters {
     }
   }
 
-  public static async updateChapterDetails(req: Request, res: Response) {
-    const chapterId = req.body.chapter_id
-    const updateDetails = { ...req.body }
-
+  public static async updateChapterDetails(chapter_id: string, newContent: any[]) {
     try {
-      const updatedChapter = await ChapterNamespace.updateChapter(chapterId, {
-        ...updateDetails,
-      })
+      const updatedChapter = await ChapterNamespace.updateChapter(chapter_id, newContent )
+      
+      // io.emit('updated-chapter', {updatedChapter: updatedChapter })
 
-      return ResponseNamespace.sendSuccessMessage(
-        res,
-        updatedChapter,
-        res.status(200).statusCode,
-        'Chapter updated successfully',
-      )
     } catch (error) {
-      console.log(
-        'Error updating script chapter',
-        error,
-        error && error.message,
-      )
-      return ResponseNamespace.sendErrorMessage(
-        req,
-        res,
-        error,
-        res.status(500).statusCode,
-        'Error updating script chapter',
-      )
+      console.log('Error creating new chapter', error, error && error.message)
     }
   }
+
+  public static async fetchChapterDetails(chapter_id: string) {
+    try {
+      const fetchedChapter = await ChapterNamespace.fetchChapter(chapter_id )
+      
+      io.emit('fetched-chapter', {fetchedChapter: fetchedChapter })
+
+    } catch (error) {
+      console.log('Error creating new chapter', error, error && error.message)
+    }
+  }
+
+  // public static async updateChapterDetails(req: Request, res: Response) {
+  //   const chapterId = req.body.chapter_id
+  //   const updateDetails = { ...req.body }
+
+  //   try {
+  //     const updatedChapter = await ChapterNamespace.updateChapter(chapterId, {
+  //       ...updateDetails,
+  //     })
+
+  //     return ResponseNamespace.sendSuccessMessage(
+  //       res,
+  //       updatedChapter,
+  //       res.status(200).statusCode,
+  //       'Chapter updated successfully',
+  //     )
+  //   } catch (error) {
+  //     console.log(
+  //       'Error updating script chapter',
+  //       error,
+  //       error && error.message,
+  //     )
+  //     return ResponseNamespace.sendErrorMessage(
+  //       req,
+  //       res,
+  //       error,
+  //       res.status(500).statusCode,
+  //       'Error updating script chapter',
+  //     )
+  //   }
+  // }
 
   public static async deleteScriptChapter(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
