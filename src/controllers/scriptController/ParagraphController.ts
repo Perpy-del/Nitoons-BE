@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import ResponseNamespace from '../../utils/responses_namespace'
 import { Types } from 'mongoose'
-import ParagraphNamespace from 'lib/Scripts/Paragraph'
-import { io } from 'app'
+import ParagraphNamespace from '../../lib/Scripts/Paragraph'
+import { io } from '../../app'
 
 export default class ParagraphController {
     public static async createParagraph(chapter_id: any) {
