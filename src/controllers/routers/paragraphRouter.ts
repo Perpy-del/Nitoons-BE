@@ -1,5 +1,5 @@
 import express from 'express'
-import ParagraphController from 'controllers/scriptController/ParagraphController'
+import ParagraphController from '../scriptController/ParagraphController'
 import { authMiddleware } from '../middlewares/jwtHandler'
 
 export const router = express.Router()
