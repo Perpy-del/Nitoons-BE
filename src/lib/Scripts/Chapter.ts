@@ -1,4 +1,4 @@
-import { StringDecoder } from 'string_decoder'
+// import { StringDecoder } from 'string_decoder'
 import ChapterModel, { IChapter } from '../Scripts/models/ChapterModel'
 
 export default class ChapterNamespace {
@@ -10,36 +10,36 @@ export default class ChapterNamespace {
     })
   }
 
-  public static async updateChapter(
-    chapterId: string,
-    updateDetails: { title?: string; content?: string },
+  public static async fetchChapter(
+    chapter_id: string, 
   ): Promise<IChapter> {
+    return ChapterModel.findOne({
+      _id: chapter_id,
+    })
+  }
+
+  public static async  updateChapter(
+    chapter_id: string, 
+    newContent: any[]
+    ): Promise<IChapter> {
     try {
-      const updateQuery = await ChapterModel.findById({
-        _id: chapterId,
-      })
-      if (!updateDetails) {
-        throw new Error('Chapter not found')
+      const chapter = await ChapterModel.findById(chapter_id);
+  
+      if (!chapter) {
+        throw new Error('Chapter not found');
       }
-      if (updateDetails?.title) {
-        updateQuery.title = updateDetails.title
-      }
-      if (updateDetails?.content) {
-        updateQuery.content = updateDetails.content
-      }
-
-      const updatedChapter = await updateQuery.save()
-
-      return updatedChapter
+  
+      chapter.content = newContent;
+  
+      const updatedChapter = await chapter.save();
+  
+      return updatedChapter;
     } catch (error) {
-      console.log(
-        'Error updating script chapter',
-        error,
-        error && error.message,
-      )
-      throw error
+      throw new Error(`Error updating chapter content: ${error.message}`);
     }
   }
+
+
 
   public static async deleteChapter(chapterDetails: {
     scriptId: string

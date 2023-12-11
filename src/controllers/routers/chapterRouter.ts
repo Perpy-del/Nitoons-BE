@@ -17,12 +17,12 @@ router.post(
   ScriptChapters.createNewChapter,
 )
 
-router.put(
-  '/update-chapter/:script_id',
-  authMiddleware,
-  updateChapterValidator,
-  ScriptChapters.updateChapterDetails,
-)
+// router.put(
+//   '/update-chapter/:script_id',
+//   authMiddleware,
+//   updateChapterValidator,
+//   ScriptChapters.updateChapterDetails,
+// )
 
 router.delete(
   '/delete-chapter/:script_id',

@@ -1,10 +1,48 @@
-import { Schema, model, Document } from 'mongoose'
+// import { Schema, model, Document } from 'mongoose'
+
+// export interface IChapter extends Document {
+//   title?: string
+//   script_id: string
+//   content?: string
+//   deleted?: boolean
+// }
+
+// const ChapterSchema: Schema = new Schema(
+//   {
+//     title: {
+//       type: String,
+//       default: 'Chapter One',
+//     },
+//     script_id: {
+//       type: Schema.Types.ObjectId,
+//       ref: 'script',
+//       required: true,
+//     },
+//     content: {
+//       type: Schema.Types.Mixed,
+//       ref: 'paragraph',
+//     },
+//     deleted: {
+//       type: Boolean,
+//       default: false,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   },
+// )
+
+// const ChapterModel = model<IChapter>('chapter', ChapterSchema)
+
+// export default ChapterModel
+
+import { Schema, model, Document } from 'mongoose';
 
 export interface IChapter extends Document {
-  title?: string
-  script_id: string
-  content?: string
-  deleted?: boolean
+  title?: string;
+  script_id: string;
+  content?: any[]; 
+  deleted?: boolean;
 }
 
 const ChapterSchema: Schema = new Schema(
@@ -19,8 +57,8 @@ const ChapterSchema: Schema = new Schema(
       required: true,
     },
     content: {
-      type: Schema.Types.Mixed,
-      ref: 'paragraph',
+      type: [Schema.Types.Mixed], 
+      default: {},
     },
     deleted: {
       type: Boolean,
@@ -30,8 +68,10 @@ const ChapterSchema: Schema = new Schema(
   {
     timestamps: true,
   },
-)
+);
 
-const ChapterModel = model<IChapter>('chapter', ChapterSchema)
+const ChapterModel = model<IChapter>('chapter', ChapterSchema);
 
-export default ChapterModel
+export default ChapterModel;
+
+

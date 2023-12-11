@@ -8,8 +8,10 @@ import { config } from './config/index'
 import { scriptRouter } from './controllers/routers/scriptRouter'
 import { router as userRouter } from './controllers/routers/userRouter'
 import { router as chapterRouter } from './controllers/routers/chapterRouter'
+import { router as paragraphRouter } from './controllers/routers/paragraphRouter'
 import { globalErrorHandler } from '../src/utils/globalErrHandler'
 import { Server as SocketIOServer } from 'socket.io'
+import ScriptChapters from './controllers/scriptController/ChapterController'
 
 dotenv.config()
 
@@ -31,7 +33,7 @@ app.use(express.json())
 const port = config.port || 5000
 
 const server = http.createServer(app)
-const io = new SocketIOServer(server)
+export const io = new SocketIOServer(server)
 
 io.on('connection', socket => {
   console.log('Client connected')
@@ -46,10 +48,26 @@ io.on('connection', socket => {
     callback('got it')
   })
 
+  socket.on('create-chapter', (arg) => {
+    ScriptChapters.createNewChapter(arg.scriptId)
+    // console.log("creat_chapter: ",arg)
+  })
+
+  socket.on('fetch-chapter', (arg) => {
+    ScriptChapters.fetchChapterDetails(arg.chapter_id)
+    // console.log("creat_chapter: ",arg)
+  })
+
+  socket.on('update-chapter', (arg) => {
+    // console.log("update_chapter: ",arg)
+    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
+  })
+
   socket.on('disconnect', () => {
     console.log('Client disconnected')
   })
 })
+
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`)
@@ -65,3 +83,4 @@ app.use(globalErrorHandler)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/script', scriptRouter)
 app.use('/api/v1/chapters', chapterRouter)
+app.use('/api/v1/paragraphs', paragraphRouter)
