@@ -58,7 +58,7 @@ const ChapterSchema: Schema = new Schema(
     },
     content: {
       type: [Schema.Types.Mixed], 
-      default: [{}],
+      default: {},
     },
     deleted: {
       type: Boolean,
