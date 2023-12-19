@@ -21,12 +21,7 @@ Promise.resolve(
   dBSetup().then(() => console.log('Database connected successfully')),
 )
 
-app.use(
-  cors({
-    credentials: true,
-    origin: 'http://localhost:3000',
-  }),
-)
+app.use(cors())
 
 app.use(express.json())
 
@@ -48,17 +43,17 @@ io.on('connection', socket => {
     callback('got it')
   })
 
-  socket.on('create-chapter', (arg) => {
+  socket.on('create-chapter', arg => {
     ScriptChapters.createNewChapter(arg.scriptId)
     // console.log("creat_chapter: ",arg)
   })
 
-  socket.on('fetch-chapter', (arg) => {
+  socket.on('fetch-chapter', arg => {
     ScriptChapters.fetchChapterDetails(arg.chapter_id)
     // console.log("creat_chapter: ",arg)
   })
 
-  socket.on('update-chapter', (arg) => {
+  socket.on('update-chapter', arg => {
     // console.log("update_chapter: ",arg)
     ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
   })
@@ -67,7 +62,6 @@ io.on('connection', socket => {
     console.log('Client disconnected')
   })
 })
-
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`)

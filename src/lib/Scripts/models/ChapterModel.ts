@@ -36,13 +36,13 @@
 
 // export default ChapterModel
 
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose'
 
 export interface IChapter extends Document {
-  title?: string;
-  script_id: string;
-  content?: any[]; 
-  deleted?: boolean;
+  title?: string
+  script_id: string
+  content?: any[]
+  deleted?: boolean
 }
 
 const ChapterSchema: Schema = new Schema(
@@ -57,8 +57,8 @@ const ChapterSchema: Schema = new Schema(
       required: true,
     },
     content: {
-      type: [Schema.Types.Mixed], 
-      default: [{}],
+      type: [Schema.Types.Mixed],
+      default: [],
     },
     deleted: {
       type: Boolean,
@@ -68,10 +68,8 @@ const ChapterSchema: Schema = new Schema(
   {
     timestamps: true,
   },
-);
+)
 
-const ChapterModel = model<IChapter>('chapter', ChapterSchema);
+const ChapterModel = model<IChapter>('chapter', ChapterSchema)
 
-export default ChapterModel;
-
-
+export default ChapterModel
