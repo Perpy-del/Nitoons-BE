@@ -49,7 +49,7 @@ const ChapterSchema: Schema = new Schema(
   {
     title: {
       type: String,
-      default: 'Chapter One',
+      default: 'Chapter',
     },
     script_id: {
       type: Schema.Types.ObjectId,

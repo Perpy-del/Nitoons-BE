@@ -17,6 +17,8 @@ router.post(
   ScriptChapters.createNewChapter,
 )
 
+router.put('/update-title', authMiddleware, ScriptChapters.updateChapterName)
+
 // router.put(
 //   '/update-chapter/:script_id',
 //   authMiddleware,

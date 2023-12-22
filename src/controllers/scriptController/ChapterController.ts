@@ -78,6 +78,36 @@ export default class ScriptChapters {
     }
   }
 
+  public static async updateChapterName(req: Request, res: Response) {
+    const { user_id } = req.params
+    const { chapter_id, title } = req.body
+    try {
+      const userId = new Types.ObjectId(user_id)
+
+      const chapterTitle = await ChapterNamespace.updateChapterTitle({
+        user_id: userId,
+        chapter_id,
+        title
+      })
+
+      return ResponseNamespace.sendSuccessMessage(
+        res,
+        chapterTitle,
+        res.status(200).statusCode,
+        'Chapter title updated successfully',
+      )
+    } catch (error) {
+      console.log('Error updating script title', error, error && error.message)
+      return ResponseNamespace.sendErrorMessage(
+        req,
+        res,
+        error,
+        res.status(500).statusCode,
+        'Error updating chapter title',
+      )
+    }
+  }
+
   public static async fetchChapterDetails(chapter_id: string) {
     try {
       const fetchedChapter = await ChapterNamespace.fetchChapter(chapter_id )

@@ -1,4 +1,5 @@
 // import { StringDecoder } from 'string_decoder'
+import { Types } from 'mongoose';
 import ChapterModel, { IChapter } from '../Scripts/models/ChapterModel'
 
 export default class ChapterNamespace {
@@ -39,7 +40,23 @@ export default class ChapterNamespace {
     }
   }
 
-
+  public static async updateChapterTitle(chapterDetails: {
+    user_id: Types.ObjectId
+    chapter_id: Types.ObjectId
+    title: string
+  }) {
+    const titleChapter = ChapterModel.findOneAndUpdate(
+      {
+        user_id: chapterDetails.user_id,
+        _id: chapterDetails.chapter_id,
+      },
+      {
+        title: chapterDetails.title,
+      },
+      { new: true },
+    )
+    return titleChapter
+  }
 
   public static async deleteChapter(chapterDetails: {
     scriptId: string
