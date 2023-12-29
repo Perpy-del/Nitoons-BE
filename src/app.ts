@@ -49,7 +49,7 @@ io.on('connection', socket => {
 
   socket.on('create-chapter', (arg) => {
     ScriptChapters.createNewChapter(arg.scriptId)
-    console.log("creat_chapter: ",arg)
+    // console.log("creat_chapter: ",arg)
   })
 
   socket.on('fetch-chapter', (arg) => {
@@ -58,7 +58,7 @@ io.on('connection', socket => {
   })
 
   socket.on('update-chapter', (arg) => {
-    // console.log("update_chapter: ",arg)
+    console.log("update_chapter: ",arg)
     ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
   })
 
