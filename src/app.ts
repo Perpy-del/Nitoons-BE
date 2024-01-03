@@ -21,7 +21,11 @@ Promise.resolve(
   dBSetup().then(() => console.log('Database connected successfully')),
 )
 
-app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+  }),
+)
 
 app.use(express.json())
 
@@ -50,11 +54,11 @@ io.on('connection', socket => {
 
   socket.on('fetch-chapter', arg => {
     ScriptChapters.fetchChapterDetails(arg.chapter_id)
-    // console.log("creat_chapter: ",arg)
+    console.log("creat_chapter: ",arg)
   })
 
-  socket.on('update-chapter', arg => {
-    // console.log("update_chapter: ",arg)
+  socket.on('update-chapter', (arg) => {
+    console.log("update_chapter: ",arg)
     ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
   })
 

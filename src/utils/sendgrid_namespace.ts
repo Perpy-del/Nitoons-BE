@@ -6,7 +6,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 import { config } from '../config/index'
 
-sgMail.setApiKey(config.sendgridApiKey)
 
 export interface ISendMail {
   to: string
@@ -18,6 +17,7 @@ export interface ISendMail {
 }
 
 const sendMail = async (props: ISendMail) => {
+  sgMail.setApiKey(config.sendgridApiKey)
   try {
     const templateSource = fs.readFileSync(
       path.join(__dirname, props.template),

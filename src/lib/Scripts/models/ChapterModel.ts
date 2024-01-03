@@ -39,10 +39,10 @@
 import { Schema, model, Document } from 'mongoose'
 
 export interface IChapter extends Document {
-  title?: string
-  script_id: string
-  content?: any[]
-  deleted?: boolean
+  title?: string;
+  script_id: string;
+  content?: any; 
+  deleted?: boolean;
 }
 
 const ChapterSchema: Schema = new Schema(
@@ -56,10 +56,7 @@ const ChapterSchema: Schema = new Schema(
       ref: 'script',
       required: true,
     },
-    content: {
-      type: [Schema.Types.Mixed],
-      default: [],
-    },
+    content:{ type: Schema.Types.Mixed, default: {} },
     deleted: {
       type: Boolean,
       default: false,
