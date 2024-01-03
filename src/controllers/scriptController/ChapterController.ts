@@ -6,55 +6,6 @@ import { Types } from 'mongoose'
 import { io } from '../../app';
 
 export default class ScriptChapters {
-  // public static async createNewChapter(req: Request, res: Response) {
-  //   const scriptId = req.body.script_id
-
-  //   try {
-  //     const newChapter = await ChapterNamespace.addChapter({ scriptId })
-
-  //     return ResponseNamespace.sendSuccessMessage(
-  //       res,
-  //       newChapter,
-  //       res.status(200).statusCode,
-  //       'Chapter created successfully',
-  //     )
-  //   } catch (error) {
-  //     console.log('Error creating new chapter', error, error && error.message)
-  //     return ResponseNamespace.sendErrorMessage(
-  //       req,
-  //       res,
-  //       error,
-  //       res.status(500).statusCode,
-  //       'Error creating new chapter',
-  //     )
-  //   }
-  // }
-
-  // public static async createNewChapter(req: Request, res: Response) {
-  //   const scriptId = req.body.script_id
-
-  //   try {
-  //     const newChapter = await ChapterNamespace.addChapter({ scriptId })
-      
-  //     io.emit('new-chapter', { scriptId, chapter: newChapter })
-
-  //     return ResponseNamespace.sendSuccessMessage(
-  //       res,
-  //       newChapter,
-  //       res.status(200).statusCode,
-  //       'Chapter created successfully',
-  //     )
-  //   } catch (error) {
-  //     console.log('Error creating new chapter', error, error && error.message)
-  //     return ResponseNamespace.sendErrorMessage(
-  //       req,
-  //       res,
-  //       error,
-  //       res.status(500).statusCode,
-  //       'Error creating new chapter',
-  //     )
-  //   }
-  // }
 
   public static async createNewChapter(scriptId: any) {
     try {
@@ -67,12 +18,27 @@ export default class ScriptChapters {
     }
   }
 
-  public static async updateChapterDetails(chapter_id: string, newContent: any[]) {
+  public static async updateChapterDetails(chapter_id: string, scriptId: string, newContent: any[]) {
     try {
       const updatedChapter = await ChapterNamespace.updateChapter(chapter_id, newContent )
       
-      // io.emit('updated-chapter', {updatedChapter: updatedChapter })
 
+      const chapters = await ChapterModel.find({ script_id: scriptId, deleted: { $ne: true }, })
+      console.log('chapters: ', chapters)
+        
+        const chapterContents = chapters.map((chapter) => chapter.content);
+
+        console.log('Fetched Chapter Contents:', chapterContents);
+
+        const refinedArray = chapterContents.map(chapter => {
+          return chapter
+            .filter((paragraph:any) => paragraph.content) 
+            .map((paragraph:any) =>{
+              return paragraph.content[0].text
+            })
+        }).flat();
+        
+        console.log("refinedArray: ",refinedArray);
     } catch (error) {
       console.log('Error creating new chapter', error, error && error.message)
     }
@@ -89,36 +55,6 @@ export default class ScriptChapters {
     }
   }
 
-  // public static async updateChapterDetails(req: Request, res: Response) {
-  //   const chapterId = req.body.chapter_id
-  //   const updateDetails = { ...req.body }
-
-  //   try {
-  //     const updatedChapter = await ChapterNamespace.updateChapter(chapterId, {
-  //       ...updateDetails,
-  //     })
-
-  //     return ResponseNamespace.sendSuccessMessage(
-  //       res,
-  //       updatedChapter,
-  //       res.status(200).statusCode,
-  //       'Chapter updated successfully',
-  //     )
-  //   } catch (error) {
-  //     console.log(
-  //       'Error updating script chapter',
-  //       error,
-  //       error && error.message,
-  //     )
-  //     return ResponseNamespace.sendErrorMessage(
-  //       req,
-  //       res,
-  //       error,
-  //       res.status(500).statusCode,
-  //       'Error updating script chapter',
-  //     )
-  //   }
-  // }
 
   public static async deleteScriptChapter(req: Request, res: Response) {
     const scriptId: string = req.params.script_id
