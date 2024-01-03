@@ -70,6 +70,8 @@ export default class ScriptChapters {
   public static async updateChapterDetails(chapter_id: string, newContent: any[]) {
     try {
       const updatedChapter = await ChapterNamespace.updateChapter(chapter_id, newContent )
+
+      // console.log("Chapter Content: ", updatedChapter?.content[0]?.content[0]?.text)
       
       // io.emit('updated-chapter', {updatedChapter: updatedChapter })
 
