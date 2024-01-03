@@ -54,12 +54,12 @@ io.on('connection', socket => {
 
   socket.on('fetch-chapter', (arg) => {
     ScriptChapters.fetchChapterDetails(arg.chapter_id)
-    console.log("creat_chapter: ",arg)
+    // console.log("creat_chapter: ",arg)
   })
 
   socket.on('update-chapter', (arg) => {
-    console.log("update_chapter: ",arg)
-    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.newContent)
+    // console.log("update_chapter: ",arg)
+    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.scriptId, arg.newContent)
   })
 
   socket.on('disconnect', () => {
