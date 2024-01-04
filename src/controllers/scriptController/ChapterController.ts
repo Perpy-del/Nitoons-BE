@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import ChapterNamespace from '../../lib/Scripts/Chapter'
 import { Types } from 'mongoose'
 import { io } from '../../app';
+import { chapterIndex } from '../../lib/db/pinecone'
 
 export default class ScriptChapters {
 
@@ -18,29 +19,71 @@ export default class ScriptChapters {
     }
   }
 
-  public static async updateChapterDetails(chapter_id: string, scriptId: string, newContent: any[]) {
+  public static async updateChapterDetails(chapter_id: string, scriptId: string, userId: string, newContent: any[]) {
     try {
-      const updatedChapter = await ChapterNamespace.updateChapter(chapter_id, newContent )
-      
+      const updatedChapter = await ChapterNamespace.updateChapter(chapter_id, newContent )     
 
       const chapters = await ChapterModel.find({ script_id: scriptId, deleted: { $ne: true }, })
       console.log('chapters: ', chapters)
         
-        const chapterContents = chapters.map((chapter) => chapter.content);
+      const chapterContents = chapters.map((chapter) => chapter.content);
 
-        console.log('Fetched Chapter Contents:', chapterContents);
+      console.log('Fetched Chapter Contents:', chapterContents);
 
-        const refinedArray = chapterContents.map(chapter => {
-          return chapter
-            .filter((paragraph:any) => paragraph.content) 
-            .map((paragraph:any) =>{
-              return paragraph.content[0].text
-            })
-        }).flat();
+      const refinedArray = chapterContents.map(chapter => {
+        return chapter
+          .filter((paragraph:any) => paragraph.content) 
+          .map((paragraph:any) =>{
+            return paragraph.content[0].text
+          })
+      }).flat();
         
-        console.log("refinedArray: ",refinedArray);
+      console.log("refinedArray: ", refinedArray);
+      const joinedChapterContent = refinedArray.join("\n");
+
+      console.log("joinedChapterContent: ", joinedChapterContent);
+      const embedding = await ChapterNamespace.getEmbeddingForChapter(joinedChapterContent)
+
+      await chapterIndex.upsert([
+        {
+          id: scriptId,
+          values: embedding,
+          metadata: {userId}
+        }
+      ])
+      
     } catch (error) {
       console.log('Error creating new chapter', error, error && error.message)
+    }
+  }
+
+  public static async updateChapterName(req: Request, res: Response) {
+    const { user_id } = req.params
+    const { chapter_id, title } = req.body
+    try {
+      const userId = new Types.ObjectId(user_id)
+
+      const chapterTitle = await ChapterNamespace.updateChapterTitle({
+        user_id: userId,
+        chapter_id,
+        title
+      })
+
+      return ResponseNamespace.sendSuccessMessage(
+        res,
+        chapterTitle,
+        res.status(200).statusCode,
+        'Chapter title updated successfully',
+      )
+    } catch (error) {
+      console.log('Error updating script title', error, error && error.message)
+      return ResponseNamespace.sendErrorMessage(
+        req,
+        res,
+        error,
+        res.status(500).statusCode,
+        'Error updating chapter title',
+      )
     }
   }
 

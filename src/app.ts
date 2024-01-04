@@ -47,26 +47,25 @@ io.on('connection', socket => {
     callback('got it')
   })
 
-  socket.on('create-chapter', (arg) => {
+  socket.on('create-chapter', arg => {
     ScriptChapters.createNewChapter(arg.scriptId)
     // console.log("creat_chapter: ",arg)
   })
 
-  socket.on('fetch-chapter', (arg) => {
+  socket.on('fetch-chapter', arg => {
     ScriptChapters.fetchChapterDetails(arg.chapter_id)
     // console.log("creat_chapter: ",arg)
   })
 
   socket.on('update-chapter', (arg) => {
     // console.log("update_chapter: ",arg)
-    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.scriptId, arg.newContent)
+    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.scriptId, arg.userId, arg.newContent)
   })
 
   socket.on('disconnect', () => {
     console.log('Client disconnected')
   })
 })
-
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`)
