@@ -59,7 +59,7 @@ io.on('connection', socket => {
 
   socket.on('update-chapter', (arg) => {
     // console.log("update_chapter: ",arg)
-    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.scriptId, arg.newContent)
+    ScriptChapters.updateChapterDetails(arg.chapter_id, arg.scriptId, arg.userId, arg.newContent)
   })
 
   socket.on('disconnect', () => {

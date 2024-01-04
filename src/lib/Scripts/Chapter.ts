@@ -1,6 +1,7 @@
 // import { StringDecoder } from 'string_decoder'
 import { Types } from 'mongoose';
 import ChapterModel, { IChapter } from '../Scripts/models/ChapterModel'
+import { getEmbedding } from '../../lib/openai';
 
 export default class ChapterNamespace {
   public static async addChapter(chapterDetails: {
@@ -87,5 +88,9 @@ export default class ChapterNamespace {
       script_id: chapterDetails.scriptId,
       deleted: { $ne: true },
     })
+  }
+
+  public static async getEmbeddingForChapter(content: string | undefined) {
+    return getEmbedding(content ?? "");
   }
 }
