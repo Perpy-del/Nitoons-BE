@@ -46,3 +46,5 @@ router.get(
   allChaptersValidator,
   ScriptChapters.getAllChaptersInScript,
 )
+
+router.post('/api/chat', authMiddleware, ScriptChapters.fetchAndCompareEmbeddings)
